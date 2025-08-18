@@ -211,7 +211,7 @@ void txPacketNRF24L01(uint8_t * data)
 	while(nrf_mode == NRF_MODE_TX)
 	{
 		status = getRegNRF24L01(NRF24L01_STATUS);
-		if(status & ((1 << (NRF24L01_STATUS_TX_DS))|(1<<(NRF24L01_STATUS_MAX_RT))))
+		if(status & ((1 << (NRF24L01_STATUS_TX_DS))|(1<<(NRF24L01_STATUS_MAX_RT)))) // tx_ds je setovan kada je ack primljen, max br retransmisije interupta
 		{
 			nrf_mode = NRF_MODE_RX; 
 			break;
