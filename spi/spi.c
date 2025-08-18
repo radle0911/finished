@@ -6,7 +6,7 @@
 
 void initSPI1_accelerometer(uint16_t prescaler)
 {
-  // Prov inicijaliziramo pinove sa kojima je povezan SPI protokol
+  // Prvo inicijaliziramo pinove sa kojima je povezan SPI protokol
   // na STM32 ploci
   // PA5->SPI1_SCK; PA6->SPI1_MISO; PA7->SPI1_MOSI
   // PA6=>prijemnik, PA7=>predajnik
@@ -25,17 +25,10 @@ void initSPI1_accelerometer(uint16_t prescaler)
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
     GPIOE->MODER |= (GPIO_MODER_MODER3_0);  // general output mode
     GPIOE->OTYPER &= ~(GPIO_OTYPER_OT_3);
-    GPIOE->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR3_1);   // prof je inicijalizirao moder2 // fast speed
+    GPIOE->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR3_1);   // fast speed
     GPIOE->PUPDR &= ~(GPIO_PUPDR_PUPDR3);
     // Takodjer u .h file je definisano za high i low 
     //
-    // profa je to ovako odradio : 
-    //
-    //	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
-    //	GPIOE->MODER |= 0x00000040; 
-    //	GPIOE->OTYPER &= ~(0x00000008);
-    //	GPIOE->OSPEEDR |= 0x00000080;	
-    //  i onda je pozvao odr ovako :
     SPI1_CS_HIGH;
   }
 
@@ -107,7 +100,7 @@ uint8_t testSPI1_loopback(void)
 }
 
 
-// da bi ovo radilo mora se fizicki spojiti PA6 i PA7 (logicno)
+// da bi ovo radilo mora se fizicki spojiti PA6 i PA7 
 void provjera_loopback_test() // ovo je za provjeru samo bilo, mozes izbrisati
 {
   if(testSPI1_loopback()) {
@@ -156,10 +149,10 @@ void initSPI2_nRF24lO1_carrier(uint16_t prescaler)
 
   // Potreban nam je i jedan neovisam gpio pin npr PB12 za high i low CS (chip select)
   {
-    GPIOB->MODER &= ~(GPIO_MODER_MODER12);  // moder reset
-    GPIOB->MODER |= (GPIO_MODER_MODER12_0);  // general output mode
+    GPIOB->MODER &= ~(GPIO_MODER_MODER12);            // moder reset
+    GPIOB->MODER |= (GPIO_MODER_MODER12_0);           // general output mode
     GPIOB->OTYPER &= ~(GPIO_OTYPER_OT_12);
-    GPIOB->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR12_1);   // prof je inicijalizirao moder2 // fast speed
+    GPIOB->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR12_1);    // fast speed
     GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR12);
     // zatim odma podesavamo CS u HIGH tj ne koristi se 
     SPI2_CS_HIGH;

@@ -142,38 +142,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern volatile uint8_t* g_node_address;
 extern volatile uint8_t nrf_mode;
 

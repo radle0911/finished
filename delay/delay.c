@@ -212,7 +212,6 @@ uint8_t chk4TimeoutSYSTIMER_TIM7(uint32_t btime, uint32_t period){
 		else
 			return (SYSTIMER_KEEP_ALIVE);
 	}
-
 }
 
 // TIM7 --------------------------------------------------------------------------------------

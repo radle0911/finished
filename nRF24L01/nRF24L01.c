@@ -201,7 +201,7 @@ uint8_t getRegNRF24L01(uint8_t reg)
 }
 
 
-
+/*
 
 void txPacketNRF24L01(uint8_t * data)
 {
@@ -244,48 +244,49 @@ void txPacketNRF24L01(uint8_t * data)
 	
 }
 
+*/
 
 
 
-//
-//void txPacketNRF24L01(uint8_t* data){
-//  uint32_t tajmer = getSYSTIMER();
-//  uint8_t status,tmp;
-//
-//  while (nrf_mode == NRF_MODE_TX) {             // ovo je NRF_MODE_TX =  1
-//    
-//    status = getRegNRF24L01(NRF24L01_STATUS);   // Trebamo provjeriti da li je promjenjen nrf_mode
-//    if (status & ((1 << NRF24L01_STATUS_TX_DS) | (1 << NRF24L01_STATUS_MAX_RT))) { // ove biti se ciste upisom 1 bit-a
-//      nrf_mode = NRF_MODE_RX;
-//      break;
-//    }
-//
-//    // pravimo delay od 1ms i vrsimo ispis nakon 1ms
-//    if (chk4TimeoutSYSTIMER(tajmer, 1000) == SYSTIMER_TIMEOUT) {  // 1ms
-//      printUSART2("TIMEOUT\n");
-//      return;
-//    }
-//  }
-//
-//    NRF_CE_LOW;	  // ------------------
-//    setTxModeNRF24L01();												// set Tx mode
-//    flushTxNRF24L01();
-//    SPI2_CS_LOW;
-//
-//    tmp = NRF_W_TX_PAYLOAD; // SPI commands
-//    txSPI2_nRF_carrier(&tmp, 1);    // select w_tx_payload, clear ss bit 
-//    txSPI2_nRF_carrier(data, NRF24L01_PIPE_LENGTH);
-//
-//
-//    SPI2_CS_HIGH;
-//    NRF_CE_HIGH;  // ------------------
-//
-//    delay_us(130);
-//    // ima i bolji nacin da se ova funk. zapise chatGPT
-//}
-//
+
+void txPacketNRF24L01(uint8_t* data){
+  uint32_t tajmer = getSYSTIMER_TIM7();
+  uint8_t status,tmp;
+
+  while (nrf_mode == NRF_MODE_TX) {             // ovo je NRF_MODE_TX =  1
+    
+    status = getRegNRF24L01(NRF24L01_STATUS);   // Trebamo provjeriti da li je promjenjen nrf_mode
+    if (status & ((1 << NRF24L01_STATUS_TX_DS) | (1 << NRF24L01_STATUS_MAX_RT))) { // ove biti se ciste upisom 1 bit-a
+      nrf_mode = NRF_MODE_RX;
+      break;
+    }
+
+    // pravimo delay od 1ms i vrsimo ispis nakon 1ms
+    if (chk4TimeoutSYSTIMER_TIM7(tajmer, 1000) == SYSTIMER_TIMEOUT) {  // 1ms
+      printUSART2("TIMEOUT\n");
+      return;
+    }
+  }
+
+    NRF_CE_LOW;	  // ------------------
+    setTxModeNRF24L01();												// set Tx mode
+    flushTxNRF24L01();
+    SPI2_CS_LOW;
+
+    tmp = NRF_W_TX_PAYLOAD; // SPI commands
+    txSPI2_nRF_carrier(&tmp, 1);    // select w_tx_payload, clear ss bit 
+    txSPI2_nRF_carrier(data, NRF24L01_PIPE_LENGTH);
 
 
+    SPI2_CS_HIGH;
+    NRF_CE_HIGH;  // ------------------
+
+    delay_us(130);
+    // ima i bolji nacin da se ova funk. zapise chatGPT
+}
+
+
+/*
 uint8_t	txOverNRF24L01(void)
 {
 	uint8_t status;
@@ -309,45 +310,46 @@ uint8_t	txOverNRF24L01(void)
 	
 	return status;
 }
+*/
 
 
 
 
-//
-//uint8_t txStatusNRF(){
-//  uint8_t status;
-//  if (nrf_mode == NRF_MODE_TX) {  // prvo provjeravamo da li je mode uopste podesen za TX
-//    status = getRegNRF24L01(NRF24L01_STATUS); // adresa statusa, uzimamo sve inf. iz nje ovako
-//    if (status & ((1 << (NRF24L01_STATUS_TX_DS)) | (1 << (NRF24L01_STATUS_MAX_RT)))) 
-//    {
-//      setRxModeNRF24L01(); // zasto se prebacuje u Rx mode ??? --> AUTO-ACK
-//      /*Zašto se nakon slanja prebacuje u RX mode?
-//	Kod nRF24L01, kad pošalješ paket u TX modu:
-//
-//	1. AKO KORISTIŠ AUTO-ACK  (ODGOVOR)
-//	      PRIMALAC AUTOMATSKI ŠALJE ACK PAKET NAZAD.
-//	      DA BI TVOJ MODUL UOPŠTE PRIMIO TAJ ACK, MORA DA BUDE U RX MODU ODMAH NAKON SLANJA.
-//	      AKO OSTANE U TX MODU, ACK SE NEĆE PRIMITI, A STATUS_MAX_RT (MAX RETRIES) BI SE MOGAO AKTIVIRATI IAKO JE PAKET STIGAO.
-//
-//	2. Čekanje na odgovor
-//	      U mnogim aplikacijama nakon što pošalješ podatke, očekuješ odgovor ili naredbu od druge strane.
-//	      Prebacivanjem u RX modul odmah “sluša” i može primiti sledeći paket bez ručne promjene moda u drugom dijelu koda.
-//
-//	3.Čišćenje i spremnost
-//	      Kod nRF24L01, TX FIFO i RX FIFO su odvojeni, ali statusni flagovi (TX_DS, MAX_RT) ostaju postavljeni dok ih ne očistiš.
-//	      Mnogi developeri kombinuju prebacivanje u RX + flush/clear sekvencu kako bi uređaj bio u poznatom stanju i spreman za novi ciklus.*/
-//      status = NRF_TX_FINISHED;
-//    }else {
-//    status = NRF_TX_IN_PROGRESS;
-//    }
-//  }else {
-//    status = NRF_TX_FINISHED;
-//  }
-//  return status;
-//}
-//
+
+uint8_t txStatusNRF(){
+  uint8_t status;
+  if (nrf_mode == NRF_MODE_TX) {  // prvo provjeravamo da li je mode uopste podesen za TX
+    status = getRegNRF24L01(NRF24L01_STATUS); // adresa statusa, uzimamo sve inf. iz nje ovako
+    if (status & ((1 << (NRF24L01_STATUS_TX_DS)) | (1 << (NRF24L01_STATUS_MAX_RT)))) 
+    {
+      setRxModeNRF24L01(); // zasto se prebacuje u Rx mode ??? --> AUTO-ACK
+      /*Zašto se nakon slanja prebacuje u RX mode?
+	Kod nRF24L01, kad pošalješ paket u TX modu:
+
+	1. AKO KORISTIŠ AUTO-ACK  (ODGOVOR)
+	      PRIMALAC AUTOMATSKI ŠALJE ACK PAKET NAZAD.
+	      DA BI TVOJ MODUL UOPŠTE PRIMIO TAJ ACK, MORA DA BUDE U RX MODU ODMAH NAKON SLANJA.
+	      AKO OSTANE U TX MODU, ACK SE NEĆE PRIMITI, A STATUS_MAX_RT (MAX RETRIES) BI SE MOGAO AKTIVIRATI IAKO JE PAKET STIGAO.
+
+	2. Čekanje na odgovor
+	      U mnogim aplikacijama nakon što pošalješ podatke, očekuješ odgovor ili naredbu od druge strane.
+	      Prebacivanjem u RX modul odmah “sluša” i može primiti sledeći paket bez ručne promjene moda u drugom dijelu koda.
+
+	3.Čišćenje i spremnost
+	      Kod nRF24L01, TX FIFO i RX FIFO su odvojeni, ali statusni flagovi (TX_DS, MAX_RT) ostaju postavljeni dok ih ne očistiš.
+	      Mnogi developeri kombinuju prebacivanje u RX + flush/clear sekvencu kako bi uređaj bio u poznatom stanju i spreman za novi ciklus.*/
+      status = NRF_TX_FINISHED;
+    }else {
+    status = NRF_TX_IN_PROGRESS;
+    }
+  }else {
+    status = NRF_TX_FINISHED;
+  }
+  return status;
+}
 
 
+/*
 uint8_t txDataNRF24L01(uint8_t * daddr, uint8_t * data)
 {
 	uint8_t res = (NRF24L01_TX_COMPLETED);
@@ -357,7 +359,7 @@ uint8_t txDataNRF24L01(uint8_t * daddr, uint8_t * data)
 	setTxAddrNRF24L01(daddr);	
 	txPacketNRF24L01(data);					
 	//printUSART2("-> izlazi iz txPacket funk %d\n",global_cnt);
-	while(txOverNRF24L01() == (NRF_TX_IN_PROGRESS))
+	while(txStatusNRF() == (NRF_TX_IN_PROGRESS))
 	{
 		if(chk4TimeoutSYSTIMER_TIM7(timer, NRF24L01_TX_WAIT_PERIOD) == (SYSTIMER_TIMEOUT))
 		{
@@ -371,28 +373,27 @@ uint8_t txDataNRF24L01(uint8_t * daddr, uint8_t * data)
 	//printUSART2("-> timer = %d\n\n\n",tim-timer);
 	return res;
 }
+*/
 
 
 
 
 
-/*
 uint8_t txDataNRF24L01(uint8_t *daddr, uint8_t *data)    // data_address, data
 {
-  uint32_t tajmer = getSYSTIMER();
+  uint32_t tajmer = getSYSTIMER_TIM7();
   uint8_t rezultat = NRF24L01_TX_COMPLETED;
   setTxAddrNRF24L01(daddr);   // podesavaomo u TX_addr da bude isto od rx ACK
   txPacketNRF24L01(data);     //ovo je ogromna funkcija
 
   while (txStatusNRF() == NRF_TX_IN_PROGRESS) {	// prof. je txOverNRF24L01() oznacio ovu funk.
-    if (chk4TimeoutSYSTIMER(tajmer, NRF24L01_TX_WAIT_PERIOD) == SYSTIMER_TIMEOUT) {   // ako se ne zavrsi za 1ms fail je 
+    if (chk4TimeoutSYSTIMER_TIM7(tajmer, NRF24L01_TX_WAIT_PERIOD) == SYSTIMER_TIMEOUT) {   // ako se ne zavrsi za 1ms fail je 
       rezultat = NRF24L01_TX_FAILED;
       break;
     }
   }
   return rezultat;
 }
-*/
 
 
 uint8_t dataReadyNRF24L01(void)
