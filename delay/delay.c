@@ -126,24 +126,23 @@ uint8_t chk4TimeoutSYSTIMER(uint32_t btime, uint32_t period){
 
 // TIM7 --------------------------------------------------------------------------------------
 void initSYSTIMER_TIM7(){
-    RCC->APB1ENR |= RCC_APB1ENR_TIM7EN;
-    TIM7->PSC = 0x0054 - 0x0001;
-    TIM7->ARR = 0x03E8;         // ovdje je podeseno da bude u ms, a ne kao prethodno da se broji (ovo je 1000)
-
-    TIM7->CR1 |= TIM_CR1_ARPE | TIM_CR1_URS;
-
-    TIM7->DIER |= TIM_DIER_UIE;
-
-    TIM7->CR2 = 0x0000;
-    TIM7->CNT = 0x0000;
-
-    TIM7->EGR |= TIM_EGR_UG;
-
-    NVIC_SetPriority(TIM7_IRQn, 0);
-    NVIC_EnableIRQ(TIM7_IRQn);
-
-    TIM7->CR1 |= TIM_CR1_CEN;
-/*
+//    RCC->APB1ENR |= RCC_APB1ENR_TIM7EN;
+//    TIM7->PSC = 0x0054 - 0x0001;
+//    TIM7->ARR = 0x03E8;         // ovdje je podeseno da bude u ms, a ne kao prethodno da se broji (ovo je 1000)
+//
+//    TIM7->CR1 |= TIM_CR1_ARPE | TIM_CR1_URS;
+//
+//    TIM7->DIER |= TIM_DIER_UIE;
+//
+//    TIM7->CR2 = 0x0000;
+//    TIM7->CNT = 0x0000;
+//
+//    TIM7->EGR |= TIM_EGR_UG;
+//
+//    NVIC_SetPriority(TIM7_IRQn, 0);
+//    NVIC_EnableIRQ(TIM7_IRQn);
+//
+//    TIM7->CR1 |= TIM_CR1_CEN;
 	RCC->APB1ENR |= RCC_APB1ENR_TIM7EN; 								// 
 	TIM7->PSC = 0x0054-0x0001;											// 
 																		// 
@@ -158,22 +157,20 @@ void initSYSTIMER_TIM7(){
 	NVIC_SetPriority(TIM7_IRQn, 0);
 	NVIC_EnableIRQ(TIM7_IRQn);
 	TIM7->CR1 |= TIM_CR1_CEN;											// 	
-*/
 
 }
 
 void TIM7_IRQHandler(void){
-    if ((TIM7->SR & TIM_SR_UIF) == TIM_SR_UIF) { // Al msm da moze da radi i bez ovog ==
-        ++g_tim7_val;                           // znaci svaki put kada se desi interupt povecaj globalnu varijablu za 1 (svake ms)
-        TIM7->SR &= ~TIM_SR_UIF;
-    }
+//    if ((TIM7->SR & TIM_SR_UIF) == TIM_SR_UIF) { // Al msm da moze da radi i bez ovog ==
+//        ++g_tim7_val;                           // znaci svaki put kada se desi interupt povecaj globalnu varijablu za 1 (svake ms)
+//        TIM7->SR &= ~TIM_SR_UIF;
+//    }
     
-/*	if(TIM7->SR & 0x0001)
+	if(TIM7->SR & 0x0001)
 	{
 		g_tim7_val++;
 		TIM7->SR = 0x0000;
 	}
-*/
 }
 
 
@@ -183,23 +180,22 @@ uint32_t getSYSTIMER_TIM7(){
 
 
 uint8_t chk4TimeoutSYSTIMER_TIM7(uint32_t btime, uint32_t period){
-    uint32_t time = g_tim7_val; // ili getSYSTIMER_TIM7();
-    if (time >= btime ) {
-        if (time >= btime + period ) { // znaci da je preslo sto se ne smije desiti
-            return SYSTIMER_TIMEOUT;
-        } else { 
-            return SYSTIMER_KEEP_ALIVE;
-        }
-    }else {
-        uint32_t tmp32 = 0xFFFFFFFF - btime; 
-        if ((time + tmp32) >= period) {
-            return SYSTIMER_TIMEOUT;
-        } else {
-            return SYSTIMER_KEEP_ALIVE;
-        }
-    }
+//    uint32_t time = g_tim7_val; // ili getSYSTIMER_TIM7();
+//    if (time >= btime ) {
+//        if (time >= btime + period ) { // znaci da je preslo sto se ne smije desiti
+//            return SYSTIMER_TIMEOUT;
+//        } else { 
+//            return SYSTIMER_KEEP_ALIVE;
+//        }
+//    }else {
+//        uint32_t tmp32 = 0xFFFFFFFF - btime; 
+//        if ((time + tmp32) >= period) {
+//            return SYSTIMER_TIMEOUT;
+//        } else {
+//            return SYSTIMER_KEEP_ALIVE;
+//        }
+//    }
 
-/*
 	uint32_t time = g_tim7_val;
 	if(time >= btime)
 	{
@@ -216,7 +212,6 @@ uint8_t chk4TimeoutSYSTIMER_TIM7(uint32_t btime, uint32_t period){
 		else
 			return (SYSTIMER_KEEP_ALIVE);
 	}
-*/
 
 }
 
