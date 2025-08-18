@@ -354,7 +354,7 @@ uint8_t txDataNRF24L01(uint8_t * daddr, uint8_t * data)
 	setTxAddrNRF24L01(daddr);	
 	txPacketNRF24L01(data);					
 	//printUSART2("-> izlazi iz txPacket funk %d\n",global_cnt);
-	while(txStatusNRF() == (NRF_TX_IN_PROGRESS))
+	while(txOverNRF24L01() == (NRF_TX_IN_PROGRESS))
 	{
 		if(chk4TimeoutSYSTIMER_TIM7(timer, NRF24L01_TX_WAIT_PERIOD) == (SYSTIMER_TIMEOUT))
 		{
