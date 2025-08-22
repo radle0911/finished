@@ -138,12 +138,12 @@ void initSYSTIMER_TIM7(){
     TIM7->CNT = 0x0000;
 
     TIM7->EGR |= TIM_EGR_UG;
-    TIM7->DIER |= TIM_DIER_UIE;
+    TIM7->DIER = 0x0001;
 
     NVIC_SetPriority(TIM7_IRQn, 0);
     NVIC_EnableIRQ(TIM7_IRQn);
-
     TIM7->CR1 |= TIM_CR1_CEN;
+
     //    prof: 
 //	RCC->APB1ENR |= RCC_APB1ENR_TIM7EN; 								// 
 //	TIM7->PSC = 0x0054-0x0001;											// 
@@ -163,9 +163,8 @@ void initSYSTIMER_TIM7(){
 }
 
 void TIM7_IRQHandler(void){
-    if ((TIM7->SR & 0x0001)) { // Al msm da moze da radi i bez ovog ==
+    if (TIM7->SR & 0x0001) { // Al msm da moze da radi i bez ovog ==
         ++g_tim7_val;                           // znaci svaki put kada se desi interupt povecaj globalnu varijablu za 1 (svake ms)
-        //TIM7->SR &= ~TIM_SR_UIF;
         TIM7->SR = 0x0000;
     }
     
