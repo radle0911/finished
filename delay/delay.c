@@ -130,8 +130,8 @@ void initSYSTIMER_TIM7(){
     TIM7->PSC = 0x0054 - 0x0001;
     TIM7->ARR = 0x03E8;         // ovdje je podeseno da bude u ms, a ne kao prethodno da se broji (ovo je 1000)
 
-    TIM7->CR1 |= TIM_CR1_ARPE | TIM_CR1_URS; // ovo i linija ispod su "tehnicki iste" samo sto je dole brze ..
-//    TIM7->CR1 = 0x0084;
+//    TIM7->CR1 |= TIM_CR1_ARPE | TIM_CR1_URS; // ovo i linija ispod su "tehnicki iste" samo sto je dole brze ..
+    TIM7->CR1 = 0x0084;
 
 
     TIM7->CR2 = 0x0000;
@@ -163,7 +163,7 @@ void initSYSTIMER_TIM7(){
 }
 
 void TIM7_IRQHandler(void){
-    if ((TIM7->SR & TIM_SR_UIF) == TIM_SR_UIF) { // Al msm da moze da radi i bez ovog ==
+    if ((TIM7->SR & 0x0001)) { // Al msm da moze da radi i bez ovog ==
         ++g_tim7_val;                           // znaci svaki put kada se desi interupt povecaj globalnu varijablu za 1 (svake ms)
         //TIM7->SR &= ~TIM_SR_UIF;
         TIM7->SR = 0x0000;
