@@ -283,31 +283,31 @@ void txPacketNRF24L01(uint8_t* data){
     // ima i bolji nacin da se ova funk. zapise chatGPT
 }
 
-
-uint8_t	txOverNRF24L01(void)
-{
-	uint8_t status;
-	if(nrf_mode == (NRF_MODE_TX))
-	{
-		status = getRegNRF24L01(NRF24L01_STATUS);
-		if(status & ((1 << (NRF24L01_STATUS_TX_DS))|(1<<(NRF24L01_STATUS_MAX_RT))))
-		{
-			setRxModeNRF24L01();
-			status = (NRF_TX_FINISHED); 
-		}
-		else
-		{
-			status = (NRF_TX_IN_PROGRESS); 
-		}	
-	}
-	else
-	{
-		status = (NRF_TX_FINISHED); 
-	}
-	
-	return status;
-}
-
+//
+//uint8_t	txOverNRF24L01(void)
+//{
+//	uint8_t status;
+//	if(nrf_mode == (NRF_MODE_TX))
+//	{
+//		status = getRegNRF24L01(NRF24L01_STATUS);
+//		if(status & ((1 << (NRF24L01_STATUS_TX_DS))|(1<<(NRF24L01_STATUS_MAX_RT))))
+//		{
+//			setRxModeNRF24L01();
+//			status = (NRF_TX_FINISHED); 
+//		}
+//		else
+//		{
+//			status = (NRF_TX_IN_PROGRESS); 
+//		}	
+//	}
+//	else
+//	{
+//		status = (NRF_TX_FINISHED); 
+//	}
+//	
+//	return status;
+//}
+//
 
 
 

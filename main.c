@@ -30,7 +30,7 @@ int main(void)
 
     initPWM();
 
-    initSPI1_accelerometer(SPI_BaudRate_Prescaler_32);
+    //initSPI1_accelerometer(SPI_BaudRate_Prescaler_32);    // poprilicno sam siguran da mi je poziv ove funkcije totalno nepotreban ovdje ...., probati sa i bez njega 
     
     initLIS320DL();
     delay_ms(10);
