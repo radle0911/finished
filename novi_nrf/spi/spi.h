@@ -44,6 +44,8 @@ void provjera_loopback_test();
 #define SPI2_CS_LOW     GPIOB->ODR &= ~GPIO_ODR_ODR_12;
 
 
+#define SPI3_CS_HIGH    GPIOD->ODR |= GPIO_ODR_ODR_7;
+#define SPI3_CS_LOW     GPIOD->ODR &= ~GPIO_ODR_ODR_7;
 
 // za SPI nRF modul
 void initSPI2_nRF24lO1_carrier(uint16_t prescaler);
@@ -53,6 +55,18 @@ uint8_t txByteSPI2_nRF_carrier(uint8_t data);
 
 void txSPI2_nRF_carrier(uint8_t * data, uint16_t size);
 void rxSPI2_nRF_carrier(uint8_t * data, uint16_t size);
+
+
+
+
+// --------------------------------------------- NRF24L01 SPI3 ---------------------------------------------------------------
+
+void initSPI3_nRF24lO1(uint16_t prescaler);
+uint8_t rxByteSPI3_nRF(void);
+uint8_t txByteSPI3_nRF(uint8_t data);
+void txSPI3_nRF(uint8_t * data, uint16_t size);  // saljemo bit po bit
+void rxSPI3_nRF(uint8_t * data, uint16_t size);  // primamo bit po bit
+
 
 //-----------------------------------------
 #endif // !SPI_H

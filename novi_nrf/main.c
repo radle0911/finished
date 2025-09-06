@@ -37,7 +37,9 @@ int main(void)
 
     initSYSTIMER_TIM7();
 
-    initnRF24L01(node_type);
+//    initnRF24L01(node_type);
+
+    initnRF24L01_SPI3(node_type);
     delay_ms(1000);
   }
   // INICIJALIZACIJA END -------------------------------------------------
