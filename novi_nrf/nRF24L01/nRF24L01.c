@@ -605,7 +605,7 @@ void initnRF24L01_SPI3(uint8_t node_type)
   //prvo je sto radimo da podesavamo Rx adresu od nRF modula
 
 
-  setRxAddrNRF24L01_SPI3((uint8_t *)g_node_address,NRF24L01_RX_ADDR_P1);		        // set Rx address 
+  setRxAddrNRF24L01_SPI3((uint8_t *)g_node_address_novi,NRF24L01_RX_ADDR_P1);		        // set Rx address 
   /*
     Postavljanjem adrese u RX_ADDR_P1, omogućavaš modulu da prima podatke koji su poslati na tu adresu.
     Pri komunikaciji, pošiljalac šalje paket na tu adresu, a prijemnik (sa ovom postavljenom adresom u RX_ADDR_P1) ga prihvata.
