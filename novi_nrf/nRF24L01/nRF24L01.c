@@ -52,6 +52,7 @@ void initnRF24L01(uint8_t node_type)
     g_node_address = (uint8_t*)c_nrf_master_addr;
   }
 
+  printUSART2("dolazi do ovdje 1.\n");
   // RX ≠ uvijek "slave", TX ≠ uvijek "master"
   // Kod nRF24L01 nema pravog “master/slave” kao kod I2C-a.
   // Termin "master/slave" koristi logički:
@@ -61,7 +62,7 @@ void initnRF24L01(uint8_t node_type)
   initSPI2_nRF24lO1_carrier(SPI_BaudRate_Prescaler_8);
   // CS, CLK, MISO, MOSI su podeseni u funkciji iznad. Potrebno je podesiti
   // jos CE (chip enable); 
-  //
+  
   // Ovaj pin kontroliše radio modul, ne SPI.
   //
   // U RX modu: CE = HIGH → čip aktivno sluša kanale i prima podatke.
@@ -550,6 +551,7 @@ void initnRF24L01_SPI3(uint8_t node_type)
     g_node_address_novi = (uint8_t*)c_nrf_master_addr;
   }
 
+  
 
   // RX ≠ uvijek "slave", TX ≠ uvijek "master"
   // Kod nRF24L01 nema pravog “master/slave” kao kod I2C-a.
@@ -603,13 +605,13 @@ void initnRF24L01_SPI3(uint8_t node_type)
   //prvo je sto radimo da podesavamo Rx adresu od nRF modula
 
 
-  setRxAddrNRF24L01((uint8_t *)g_node_address,NRF24L01_RX_ADDR_P1);		        // set Rx address 
+  setRxAddrNRF24L01_SPI3((uint8_t *)g_node_address,NRF24L01_RX_ADDR_P1);		        // set Rx address 
   /*
     Postavljanjem adrese u RX_ADDR_P1, omogućavaš modulu da prima podatke koji su poslati na tu adresu.
     Pri komunikaciji, pošiljalac šalje paket na tu adresu, a prijemnik (sa ovom postavljenom adresom u RX_ADDR_P1) ga prihvata.
    */
 
-  conRegNRF24L01(NRF24L01_RF_CH, NRF24L01_ACTIVE_CHANNEL);        			// set active channel
+  conRegNRF24L01_SPI3(NRF24L01_RF_CH, NRF24L01_ACTIVE_CHANNEL);        			// set active channel
   /*
       Frekvencija = 2400 MHz + (vrijednost * 1 MHz)
       1 – vrijednost koju upisuješ
@@ -618,8 +620,8 @@ void initnRF24L01_SPI3(uint8_t node_type)
   */
 
 
-  conRegNRF24L01(NRF24L01_RX_PW_P0, NRF24L01_PIPE_LENGTH);			// set length of pipe 0
-  conRegNRF24L01(NRF24L01_RX_PW_P1, NRF24L01_PIPE_LENGTH);			// set length of pipe 1
+  conRegNRF24L01_SPI3(NRF24L01_RX_PW_P0, NRF24L01_PIPE_LENGTH);			// set length of pipe 0
+  conRegNRF24L01_SPI3(NRF24L01_RX_PW_P1, NRF24L01_PIPE_LENGTH);			// set length of pipe 1
 
   
 	
@@ -635,8 +637,8 @@ void initnRF24L01_SPI3(uint8_t node_type)
         P1 se obično koristi kao glavna RX adresa za aplikaciju (kao što si ti napravio master/slave adresiranje).
         Ostali pipe-ovi (P2–P5) dijele većinu adrese s P1 i rijetko se koriste u osnovnim primjerima.
 */
-  setRxModeNRF24L01();    // podesi nRF da radi kao prijemnik i ukljuci ga da aktivno slusa. || (uključi modul u RX režim)
-  flushRxNRF24L01();      // cistimo prijemni FIFO bafer nRF-a.  || (ocisti sve što je bilo primljeno ranije )
+  setRxModeNRF24L01_SPI3();    // podesi nRF da radi kao prijemnik i ukljuci ga da aktivno slusa. || (uključi modul u RX režim)
+  flushRxNRF24L01_SPI3();      // cistimo prijemni FIFO bafer nRF-a.  || (ocisti sve što je bilo primljeno ranije )
   
 
 //uint8_t who = getRegNRF24L01(NRF24L01_CONFIG);

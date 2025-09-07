@@ -32,15 +32,19 @@ int main(void)
 
     //initSPI1_accelerometer(SPI_BaudRate_Prescaler_32);    // poprilicno sam siguran da mi je poziv ove funkcije totalno nepotreban ovdje ...., probati sa i bez njega 
     
+    printUSART2("dolazi da inicijalizacije akcelerometra\n");
     initLIS320DL();
     delay_ms(10);
+    printUSART2("prolazi inicijalizaciju akcelerometra\n");
 
     initSYSTIMER_TIM7();
 
 //    initnRF24L01(node_type);
 
+    printUSART2("dolazi da inicijalizacije nrf modula\n");
     initnRF24L01_SPI3(node_type);
     delay_ms(1000);
+    printUSART2("prolazi inicijalizaciju nrf modula\n");
   }
   // INICIJALIZACIJA END -------------------------------------------------
 
