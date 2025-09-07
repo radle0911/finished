@@ -125,6 +125,7 @@
 
 #define NRF24L01_MAX_CHANNEL				127
 #define NRF24L01_ACTIVE_CHANNEL				1
+#define NRF24L01_ACTIVE_CHANNEL_80		    80
 #define NRF24L01_PIPE_LENGTH				16 							// (1-32)
 
 #define NRF24L01_TX_WAIT_PERIOD				100							// [x1ms]

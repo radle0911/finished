@@ -54,10 +54,8 @@ int main(void)
 
 
   if (node_type == NRF24L01_NODE_TYPE_TX) {
-    printUSART2("ulazi u tx blok\n");
     startMasterNodeSYS();
   }else {
-    printUSART2("ulazi u rx blok\n");
     startSlaveNodeSYS();
   }
 

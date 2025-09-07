@@ -611,7 +611,7 @@ void initnRF24L01_SPI3(uint8_t node_type)
     Pri komunikaciji, pošiljalac šalje paket na tu adresu, a prijemnik (sa ovom postavljenom adresom u RX_ADDR_P1) ga prihvata.
    */
 
-  conRegNRF24L01_SPI3(NRF24L01_RF_CH, NRF24L01_ACTIVE_CHANNEL);        			// set active channel
+  conRegNRF24L01_SPI3(NRF24L01_RF_CH, NRF24L01_ACTIVE_CHANNEL_80);        			// set active channel
   /*
       Frekvencija = 2400 MHz + (vrijednost * 1 MHz)
       1 – vrijednost koju upisuješ
