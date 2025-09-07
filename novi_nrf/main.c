@@ -71,7 +71,6 @@ void startMasterNodeSYS(){
   uint8_t* send_msg = (uint8_t*)accel_data;
   while (1) {
     getDataLIS302DL(accel_data);
-    printUSART2("accel data is : %d\n",accel_data[0]);
     txDataNRF24L01_SPI3((uint8_t*)c_nrf_slave_addr, send_msg);
 
     // ------------------------------------------------------------

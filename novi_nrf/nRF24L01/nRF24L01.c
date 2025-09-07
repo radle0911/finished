@@ -559,7 +559,7 @@ void initnRF24L01_SPI3(uint8_t node_type)
   // Master = onaj koji inicira komunikaciju (prvi šalje podatke)
   // Slave = onaj koji uglavnom samo sluša i odgovara kad primi podatke
 
-  initSPI3_nRF24lO1(SPI_BaudRate_Prescaler_16);	// WARN: ovo treba promjeniti na SPI1
+  initSPI3_nRF24lO1(SPI_BaudRate_Prescaler_8);	// WARN: ovo treba promjeniti na SPI1
 
   // CS, CLK, MISO, MOSI su podeseni u funkciji iznad. Potrebno je podesiti
   // jos CE (chip enable); 
