@@ -54,8 +54,10 @@ int main(void)
 
 
   if (node_type == NRF24L01_NODE_TYPE_TX) {
+    printUSART2("ulazi u tx blok\n");
     startMasterNodeSYS();
   }else {
+    printUSART2("ulazi u rx blok\n");
     startSlaveNodeSYS();
   }
 
@@ -69,7 +71,7 @@ void startMasterNodeSYS(){
   uint8_t* send_msg = (uint8_t*)accel_data;
   while (1) {
     getDataLIS302DL(accel_data);
-    txDataNRF24L01((uint8_t*)c_nrf_slave_addr, send_msg);
+    txDataNRF24L01_SPI3((uint8_t*)c_nrf_slave_addr, send_msg);
 
     // ------------------------------------------------------------
     // zelena (PD12 = CCR1) 
@@ -93,9 +95,9 @@ void startSlaveNodeSYS(){
   int8_t nrf_data[ACC_DATA_LENGTH];
   while (1) {
     //setTxAddrNRF24L01(c_nrf_master_addr);
-    is_data_ready = dataReadyNRF24L01();
+    is_data_ready = dataReadyNRF24L01_SPI3();
     if (is_data_ready == NRF_DATA_READY) {
-      rxDataNRF24L01(nrf_data);
+      rxDataNRF24L01_SPI3(nrf_data);
       printUSART2("-> |[%d],[%d],[%d]|\n",nrf_data[0],nrf_data[1],nrf_data[2]);
       // ------------------------------------------------------------
       // zelena (PD12 = CCR1) 
