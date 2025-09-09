@@ -1,6 +1,13 @@
-Ovo je ispravan file za prijenos akcelometar podataka sa 1. stm32f4xx na 2. stm32f4xx, koristeci 2 nRF modula.
+# STM32F4xx Accelerometer Data Transfer
 
--> Ovo je kod koji se koristio za prikaz projekta 18.09.2025 iz predmeta msut (radi savrseno)
+Ovaj projekt prikazuje prijenos podataka sa akcelerometra između dvije STM32F4xx pločice koristeći dva **nRF** modula.  
 
--> Dodatno je modifikovan gdje sada izvrsava puno brzi prijenos jer je prescaler na spi
-manjen sa 32 na 16 i sada radi na 5.25MHz
+## Detalji
+
+- 📅 Kod je korišten za prezentaciju projekta 18.09.2025. u sklopu predmeta **MSUT**.  
+- ✅ Verifikovan rad – sistem funkcioniše bez grešaka.  
+- ⚡ Optimizacija: Prescaler na SPI je smanjen sa **32** na **16**, čime je brzina prijenosa povećana.  
+- 🔧 Trenutna frekvencija SPI: **5.25 MHz**.  
+
+## Napomena
+Ova verzija predstavlja stabilnu i poboljšanu implementaciju u odnosu na prethodnu.
